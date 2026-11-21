@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="TETRA TERMINAL HUB — WEDGE.">
+<title>TETRA HUB</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23000'/%3E%3Crect x='3' y='3' width='4' height='4' fill='%23e8edf0'/%3E%3Crect x='9' y='3' width='4' height='4' fill='%23e8edf0'/%3E%3Crect x='3' y='9' width='4' height='4' fill='%23e8edf0'/%3E%3Crect x='9' y='9' width='4' height='4' fill='%23e8edf0' fill-opacity='.35'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/tetra.css">
+<link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main class="wrap">
+  <section class="term" aria-label="터미널 허브">
+    <span class="tick l" aria-hidden="true"></span>
+    <span class="tick r" aria-hidden="true"></span>
+
+    <header class="bar">
+      <span class="tty" aria-hidden="true">TTY0</span>
+      <h1 class="name">TETRA HUB</h1>
+      <span class="sig lost sm-hide" aria-hidden="true">SIG LOST</span>
+      <span class="clock" id="clock" aria-hidden="true">--:--:--</span>
+    </header>
+
+    <div class="screen">
+      <p class="sys" id="alert">WEDGE · STATION LINK LOST · SELECT TTY</p>
+
+      <div class="top">
+        <div>
+          <small>TETRA OS 0.14</small>
+          <h2 class="hub-ttl">TETRA</h2>
+          <p class="sub">TERMINAL INDEX</p>
+        </div>
+        <div class="stat" role="group" aria-label="작전 현황">
+          <small>OPERATION</small>
+          <b id="opDay">DAY --</b>
+          <div class="st"><span id="opT" hidden>T+<u id="opEl">--</u></span><span>LAST RPT <u id="opLast">--</u> · <span id="opCnt">--</span></span></div>
+        </div>
+      </div>
+
+      <div class="menu" role="group" aria-label="터미널 선택 메뉴">
+        <span class="mt">MAIN MENU</span>
+        <div id="rows"></div>
+      </div>
+
+      <p class="desc" id="desc" aria-live="polite"></p>
+      <div class="prompt">
+        <span><i>SELECT &gt;</i> <span class="in" id="typed"></span><span class="cur" aria-hidden="true"></span></span>
+        <a class="go" id="go" href="#" data-sfx="none">CONNECT ▶</a>
+      </div>
+      <div class="keys" aria-hidden="true"><span><b id="keyRange">1-5</b>SELECT</span><span><b>↑↓</b>MOVE</span><span><b>ENTER</b>CONNECT</span></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span id="upd">LOG UPDATED —</span>
+    <span id="fR">-- ONLINE · -- OFFLINE</span>
+  </footer>
+
+  <noscript><p class="sub">허브를 쓰려면 자바스크립트를 켜주세요.</p></noscript>
+</main>
+
+<script src="assets/config.js"></script>
+<script src="tetra-log/entries.js"></script>
+<script src="tetra-sector/sector-data.js"></script>
+<script src="tetra-comms/comms-data.js"></script>
+<script src="tetra-codex/codex-data.js"></script>
+<script src="assets/tetra.js"></script>
+<script src="assets/sfx.js"></script>
+<script src="hub.js"></script>
+</body>
+</html>

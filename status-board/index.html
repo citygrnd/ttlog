@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://script.google.com https://script.googleusercontent.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>TETRA VITALS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23000'/%3E%3Crect x='3' y='5' width='10' height='2' fill='%23e8edf0'/%3E%3Crect x='3' y='9' width='6' height='2' fill='%23e8edf0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/tetra.css">
+<link rel="stylesheet" href="vitals.css">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main class="wrap">
+  <section class="term" aria-label="대원 상태 단말기">
+    <span class="tick l" aria-hidden="true"></span>
+    <span class="tick r" aria-hidden="true"></span>
+
+    <header class="bar">
+      <a class="home" href="../" aria-label="허브로 돌아가기">◀ HUB</a>
+      <span class="tty" aria-hidden="true">TTY1</span>
+      <h1 class="name" id="title">TETRA VITALS</h1>
+      <span class="sig busy" id="sig">LINKING</span>
+      <span class="clock" id="clock" aria-hidden="true">--:--:--</span>
+    </header>
+
+    <div class="screen">
+      <p class="sys" id="alert">VITAL MONITOR · READ ONLY</p>
+
+      <div id="board" hidden>
+        <p class="line">status --all</p>
+        <div class="panel hero">
+          <div><p class="label">PERSONNEL</p><p class="big" id="sCount">--</p></div>
+          <div><p class="label">AVG HP</p><p class="big"><span id="sHp">--</span><small>%</small></p></div>
+          <div><p class="label">AVG SP</p><p class="big"><span id="sSp">--</span><small>%</small></p></div>
+          <div class="crit" id="sCritBox"><p class="label">CRITICAL</p><p class="big" id="sWarn">--</p></div>
+        </div>
+
+        <div class="cmdrow">
+          <p class="line sortline">sort --by</p>
+          <div class="sorts" id="sorts" role="group" aria-label="정렬">
+            <button type="button" data-s="sheet" aria-pressed="true">ORDER</button>
+            <button type="button" data-s="unit" id="sortUnit" hidden>UNIT</button>
+            <button type="button" data-s="name">NAME</button>
+            <button type="button" data-s="hpAsc">HP ▲</button>
+            <button type="button" data-s="spAsc">SP ▲</button>
+          </div>
+        </div>
+
+        <p class="line">ls personnel/ <span class="cnt" id="listcnt"></span></p>
+        <div class="panel list" id="list">
+          <div class="lh" aria-hidden="true"><span class="no">NO</span><span class="u">UNIT</span><span>NAME</span><span>HP</span><span>SP</span><span>STAT</span></div>
+          <div class="units" id="grid" aria-live="polite"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span id="upd">SYNC —</span>
+    <span id="detect">AUTO-DETECT —</span>
+  </footer>
+</main>
+
+<script src="../assets/config.js"></script>
+<script src="../assets/tetra.js"></script>
+<script src="../assets/sfx.js"></script>
+<script src="vitals.js"></script>
+</body>
+</html>

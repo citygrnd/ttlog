@@ -1,0 +1,7 @@
+_private/
+CLAUDE.md
+*.local.*
+.env*
+.vscode/
+.DS_Store
+Thumbs.db

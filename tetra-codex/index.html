@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="TETRA CODEX — ANOMALY RECORDS.">
+<title>TETRA CODEX</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23000'/%3E%3Crect x='3' y='3' width='10' height='10' fill='none' stroke='%23e8edf0' stroke-width='2'/%3E%3Crect x='6' y='6' width='4' height='4' fill='%23e8edf0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/tetra.css">
+<link rel="stylesheet" href="codex.css">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main class="wrap">
+  <section class="term" aria-label="이상 기록 단말기">
+    <span class="tick l" aria-hidden="true"></span>
+    <span class="tick r" aria-hidden="true"></span>
+
+    <header class="bar">
+      <a class="home" href="../" aria-label="허브로 돌아가기">◀ HUB</a>
+      <span class="tty" aria-hidden="true">TTY5</span>
+      <h1 class="name">TETRA CODEX</h1>
+      <span class="sig lost sm-hide" aria-hidden="true">SIG LOST</span>
+      <span class="clock" id="clock" aria-hidden="true">--:--:--</span>
+    </header>
+
+    <div class="screen">
+      <p class="sys" id="alert">CODEX ACCESS · READ ONLY</p>
+
+      <div class="grid">
+        <nav class="side" aria-label="항목 목록">
+          <p class="line">ls codex/ <span class="cnt" id="fCnt">-- FILES</span></p>
+          <div class="panel files">
+            <div class="hd" aria-hidden="true"><span>NO</span><span>NAME</span><span>STAT</span></div>
+            <div id="files"></div>
+          </div>
+        </nav>
+
+        <article class="main" aria-live="polite">
+          <div class="cmdrow">
+            <p class="line">cat codex/<span id="catName">—</span></p>
+            <nav class="pager" aria-label="항목 이동">
+              <button type="button" id="prev" aria-label="이전 항목">◀</button>
+              <span class="pos" id="pos">--/--</span>
+              <button type="button" id="next" aria-label="다음 항목">▶</button>
+            </nav>
+          </div>
+
+          <figure class="img" id="img">
+            <span class="c tl" aria-hidden="true"></span><span class="c tr" aria-hidden="true"></span>
+            <span class="c bl" aria-hidden="true"></span><span class="c br" aria-hidden="true"></span>
+            <span class="lb t" id="figT" aria-hidden="true">FIG. --</span>
+            <span class="lb b" id="figN" aria-hidden="true">CDX----</span>
+            <div class="ph" id="ph" role="img" aria-label="이미지 영역"><b>NO IMAGE</b><span>IMAGE AREA 16:9</span></div>
+          </figure>
+
+          <dl class="head">
+            <div><dt>CODE</dt><dd id="mCode">—</dd></div>
+            <div><dt>RECORDER</dt><dd id="mBy">—</dd></div>
+            <div><dt>LOCATION</dt><dd id="mLoc">—</dd></div>
+            <div><dt>TIME</dt><dd id="mTime">—</dd></div>
+          </dl>
+
+          <h2 class="title" id="hName">—</h2>
+          <p class="body" id="body"></p>
+          <p class="idle" aria-hidden="true"><span class="cur"></span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span id="fU">UPDATED —</span>
+    <span id="fR">-- READ · -- UNREAD</span>
+  </footer>
+
+  <noscript><p class="sub">기록을 보려면 자바스크립트를 켜주세요.</p></noscript>
+</main>
+
+<script src="../assets/tetra.js"></script>
+<script src="../assets/sfx.js"></script>
+<script src="codex-data.js"></script>
+<script src="codex.js"></script>
+</body>
+</html>

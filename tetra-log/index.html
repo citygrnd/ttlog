@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>TETRA LOG</title>
+  <meta name="description" content="TETRA SEARCH UNIT — WEDGE, 14 DAYS OF RESCUE RECORDS.">
+  <meta property="og:title" content="TETRA LOG">
+  <meta property="og:description" content="TETRA SEARCH UNIT — WEDGE, 14 DAYS OF RESCUE RECORDS.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23000'/%3E%3Crect x='4' y='4' width='5' height='8' fill='%23e8edf0'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../assets/tetra.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="snow" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <section class="term" aria-label="기록 단말기">
+      <span class="tick l" aria-hidden="true"></span>
+      <span class="tick r" aria-hidden="true"></span>
+
+      <header class="bar">
+        <a class="home" href="../" aria-label="허브로 돌아가기">◀ HUB</a>
+        <span class="tty" aria-hidden="true">TTY3</span>
+        <h1 class="name">TETRA LOG</h1>
+        <span class="sig lost sm-hide" aria-hidden="true">SIG LOST</span>
+        <span class="clock" id="clock" aria-hidden="true">--:--:--</span>
+      </header>
+
+      <div class="screen" id="screen">
+        <p class="sys" id="alert" aria-hidden="true">WHITEOUT WARNING · WEDGE · STATION LINK LOST</p>
+
+        <div class="grid">
+          <nav class="side" aria-label="기록 탐색">
+            <p class="line">ls reports/</p>
+            <div class="panel tbl">
+              <div class="dhd" id="dayhd" aria-hidden="true"></div>
+              <ol class="days" id="days" aria-label="날짜 선택"></ol>
+            </div>
+
+            <button type="button" class="fold" id="fold" aria-expanded="false" aria-controls="peoplePanel">
+              <span class="line">ls reports/<span id="daydir">—</span>/ <span class="cnt" id="daycnt"></span><span class="mark" id="foldmark">[+]</span></span>
+            </button>
+            <div class="panel tbl scroll" id="peoplePanel">
+              <ul class="people" id="people" aria-label="기록자 선택"></ul>
+            </div>
+          </nav>
+
+          <div class="main">
+            <div class="cmdrow">
+              <p class="line" id="cmdline">cat <span id="cmdfile">—</span></p>
+              <nav class="pager" aria-label="같은 날짜 보고서 이동">
+                <button type="button" id="prev" aria-label="이전 보고서">◀</button>
+                <span class="pos" id="pos">--/--</span>
+                <button type="button" id="next" aria-label="다음 보고서">▶</button>
+              </nav>
+            </div>
+
+            <div class="panel hero">
+              <div>
+                <p class="label">EXT TEMP</p>
+                <p class="big"><span id="big-temp">--</span><small>°C</small></p>
+                <p class="warn" id="warn" hidden>[WARN] HYPOTHERMIA RISK</p>
+              </div>
+              <div class="badge" aria-hidden="true"><span>DAY</span><b id="badge-day">--</b><small id="badge-total">/ --</small></div>
+            </div>
+
+            <article class="entry" aria-live="polite">
+              <dl class="head">
+                <div><dt>REPORT</dt><dd id="h-no">—</dd></div>
+                <div><dt>FILED BY</dt><dd id="h-author">—</dd></div>
+                <div><dt>TIME</dt><dd id="h-time">—</dd></div>
+              </dl>
+              <h2 class="title" id="title"></h2>
+              <p class="body"><span id="done"></span><span id="rest"></span></p>
+            </article>
+
+            <p class="idle" aria-hidden="true"><span class="cur"></span></p>
+          </div>
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <div class="prog-top">
+            <span>DAY <b id="prog-day">--</b> / <span id="prog-total">14</span> :: SEARCH OPERATION</span>
+            <b id="prog-pct">0%</b>
+          </div>
+          <div class="segs" id="segs"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span id="upd">UPDATED —</span>
+      <span id="count">0 REPORTS</span>
+    </footer>
+
+    <noscript><p class="sub">기록을 보려면 자바스크립트를 켜주세요.</p></noscript>
+  </main>
+
+  <script src="../assets/tetra.js"></script>
+  <script src="../assets/sfx.js"></script>
+  <script src="entries.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

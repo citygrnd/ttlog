@@ -1,0 +1,91 @@
+/* TETRA LOG 전용 스타일
+   공통 스킨(토큰, 틀, 상단 바, 화면, .sys/.line, 패널, 페이저, 진행 바, 커서, 하단, 2단)은 ../assets/tetra.css */
+
+/* 날짜 표 */
+.tbl { position: relative; overflow: hidden; }
+.dhd, .days { display: grid; grid-template-columns: repeat(7, 1fr); }
+.dhd { height: 20px; align-items: center; border-bottom: 1px solid var(--p-18); font-size: .54rem; letter-spacing: .12em; color: var(--p-55); text-align: center; }
+.days { list-style: none; margin: 0; padding: 0; }
+.days li:nth-child(n + 8) { border-top: 1px solid var(--p-08); }
+.days button { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 34px; padding: 0; background: transparent; border: 0; border-radius: 0; color: var(--p-90); font: inherit; cursor: pointer; }
+.days .d { font-size: .8rem; font-weight: 700; line-height: 1.1; }
+.days .c { font-size: .5rem; color: var(--p-55); letter-spacing: .02em; line-height: 1.2; }
+.days button:hover:not(:disabled) { background: var(--p-08); }
+.days button:disabled { color: var(--p-18); cursor: default; }
+.days button:disabled .c { color: var(--p-18); }
+.days button[aria-current], .people button[aria-current] { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.days button[aria-current] .c, .people button[aria-current] .a { color: var(--crt); }
+
+/* 기록자 표 */
+.fold { display: block; width: 100%; margin: 0 0 10px; padding: 0; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.fold .line { display: block; margin: 0; }
+.mark { margin-left: .8ch; font-weight: 700; text-shadow: var(--glow); }
+.people { --cols: 2.6ch 10ch minmax(0, 1fr) 5ch; list-style: none; margin: 0; padding: 0; }
+.people .hd, .people button { display: grid; grid-template-columns: var(--cols); gap: 8px; align-items: center; padding: 0 10px; }
+.people .hd { height: 28px; border-bottom: 1px solid var(--p-18); font-size: .58rem; letter-spacing: .14em; color: var(--p-55); }
+.people .hd span:last-child { text-align: right; }
+.people .grp { display: flex; align-items: center; gap: 8px; padding: 8px 10px 2px; font-size: .58rem; font-weight: 700; letter-spacing: .16em; color: var(--p-55); }
+.people .grp::after { content: ""; flex: 1; height: 1px; background: var(--p-18); }
+.people button { width: 100%; height: 36px; background: transparent; border: 0; border-radius: 0; color: var(--p-55); font: inherit; font-size: .8rem; text-align: left; cursor: pointer; }
+.people button:hover { background: var(--p-08); }
+.people .n, .people .u, .people .a, .people .tm { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.people .a { color: var(--p-90); font-weight: 700; }
+.people .tm { text-align: right; font-size: .72rem; }
+.people .more { display: none; border-top: 1px solid var(--p-18); }
+.people .more button { display: flex; justify-content: space-between; height: 32px; font-size: .64rem; letter-spacing: .14em; }
+.people .more b { color: var(--p); text-shadow: var(--glow); }
+
+/* 온도 패널 */
+.hero { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+.label { margin: 0; font-size: .64rem; letter-spacing: .16em; color: var(--p-55); }
+.big { margin: 4px 0 0; font-size: 2.6rem; font-weight: 700; line-height: 1; letter-spacing: -.02em; text-shadow: var(--glow-strong); }
+.big small { margin-left: .35em; font-size: .38em; letter-spacing: .08em; vertical-align: .15em; }
+.warn { margin: 8px 0 0; font-size: .64rem; font-weight: 700; letter-spacing: .1em; color: var(--red); animation: blink 1s steps(1) infinite; }
+.warn[hidden] { display: none; }
+.badge { --c: var(--p-80); --l: 10px; --t: 1.5px; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 78px; height: 70px; background: linear-gradient(var(--c), var(--c)) top left / var(--l) var(--t) no-repeat, linear-gradient(var(--c), var(--c)) top left / var(--t) var(--l) no-repeat, linear-gradient(var(--c), var(--c)) top right / var(--l) var(--t) no-repeat, linear-gradient(var(--c), var(--c)) top right / var(--t) var(--l) no-repeat, linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--t) no-repeat, linear-gradient(var(--c), var(--c)) bottom left / var(--t) var(--l) no-repeat, linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--t) no-repeat, linear-gradient(var(--c), var(--c)) bottom right / var(--t) var(--l) no-repeat, var(--p-04); filter: drop-shadow(0 0 4px rgba(var(--p-rgb), .35)); }
+.badge span, .badge small { font-size: .5rem; letter-spacing: .16em; color: var(--p-55); line-height: 1; }
+.badge b { font-size: 1.5rem; line-height: 1; text-shadow: var(--glow-strong); }
+.danger .big { color: var(--red); text-shadow: 0 0 10px var(--red-glow), 0 0 26px rgba(255, 59, 69, .25); }
+.danger .badge { --c: var(--red); filter: drop-shadow(0 0 4px var(--red-glow)); }
+
+/* 보고서 본문 */
+.head { display: grid; gap: 2px; margin: 0 0 16px; }
+.head div { display: grid; grid-template-columns: 10ch 1fr; }
+.head dt { color: var(--p-55); font-size: .74rem; letter-spacing: .1em; line-height: 1.9; }
+.head dd { margin: 0; color: var(--p-90); }
+.body { margin: 0; min-height: 8em; font-size: 14px; line-height: 1.85; color: var(--p-90); text-shadow: 0 0 6px rgba(var(--p-rgb), .22); white-space: pre-wrap; word-break: keep-all; overflow-wrap: anywhere; }
+#rest { color: transparent; text-shadow: none; user-select: none; }
+#done.typing::after { content: ""; display: inline-block; width: .55em; height: 1.1em; margin-left: 2px; background: var(--p); box-shadow: var(--glow); vertical-align: -.2em; }
+.idle { margin: 18px 0 0; }
+
+/* 작전 진행 바 (.segs 는 공통) */
+.progress { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--p-18); }
+.prog-top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: .66rem; letter-spacing: .1em; color: var(--p-55); }
+.prog-top b { color: var(--p); text-shadow: var(--glow); }
+
+/* 반응형 */
+@media (max-width: 639px) {
+  .dir { display: none; }
+  .hero { padding: 10px 12px; }
+  .hero > div:first-child { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; min-width: 0; }
+  .big { margin: 0; font-size: 1.7rem; }
+  .warn { flex-basis: 100%; margin-top: 4px; }
+  .badge { --l: 7px; width: 54px; height: 50px; gap: 1px; }
+  .badge span, .badge small { font-size: .42rem; }
+  .badge b { font-size: 1.05rem; }
+}
+
+@media (max-width: 879px) {
+  .side:not([data-open="true"]) .people li:not(.hd):not(.cur-row):not(.more) { display: none; }
+  .side:not([data-open="true"]) .people .more { display: block; }
+}
+
+@media (min-width: 640px) {
+  .big { font-size: 3.2rem; }
+}
+
+@media (min-width: 880px) {
+  #peoplePanel { max-height: 60vh; overflow-y: auto; }
+  .fold { cursor: default; }
+  .mark { display: none; }
+}

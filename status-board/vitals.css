@@ -1,0 +1,96 @@
+/* TETRA VITALS 전용 스타일
+   공통 스킨(토큰, 틀, 상단 바, .sig, 화면, .sys/.line, 패널, .segs, .empty, 하단)은 ../assets/tetra.css */
+
+/* 요약 패널 */
+.hero { display: grid; grid-template-columns: repeat(2, 1fr); }
+.hero > div { padding: 12px 14px; min-width: 0; }
+.hero > div:nth-child(odd) { border-right: 1px solid var(--p-18); }
+.hero > div:nth-child(-n+2) { border-bottom: 1px solid var(--p-18); }
+.label { margin: 0; font-size: .6rem; letter-spacing: .16em; color: var(--p-55); }
+.big { margin: 4px 0 0; font-size: 1.7rem; font-weight: 700; line-height: 1; letter-spacing: -.02em; text-shadow: var(--glow-strong); font-variant-numeric: tabular-nums; }
+.big small { margin-left: .3em; font-size: .42em; letter-spacing: .08em; color: var(--p-55); text-shadow: none; }
+.hero .crit.on .big { color: var(--red); text-shadow: 0 0 10px var(--red-glow), 0 0 26px rgba(255, 59, 69, .25); }
+.hero .crit.on .label { color: var(--red); }
+
+/* 정렬 (공통 .cmdrow .line 규칙보다 우선하도록 .cmdrow .sortline) */
+.cmdrow { margin: 0 0 12px; }
+.cmdrow .sortline { flex: none; }
+.sorts { display: flex; flex-wrap: wrap; gap: 4px; }
+.sorts button { height: 28px; padding: 0 9px; background: transparent; border: 1px solid var(--p-30); border-radius: 6px; color: var(--p-80); font: inherit; font-size: .62rem; letter-spacing: .1em; cursor: pointer; }
+.sorts button:hover { border-color: var(--p); box-shadow: var(--glow); }
+.sorts button[aria-pressed="true"] { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.sorts button[hidden] { display: none; }
+
+/* 대원 목록 */
+.list { --cols: 2.6ch 10ch minmax(7ch, 1fr) minmax(0, 1.6fr) minmax(0, 1.6fr) 6.5ch; overflow: hidden; }
+.list.nounit { --cols: 2.6ch minmax(7ch, 1fr) minmax(0, 1.6fr) minmax(0, 1.6fr) 6.5ch; }
+.list.nounit .u { display: none; }
+.lh, .unit { display: grid; grid-template-columns: var(--cols); gap: 12px; align-items: center; padding: 0 12px; }
+.lh { height: 28px; border-bottom: 1px solid var(--p-18); font-size: .58rem; letter-spacing: .14em; color: var(--p-55); }
+.lh span:last-child { text-align: right; }
+.grp { display: flex; align-items: center; gap: 8px; padding: 10px 12px 4px; font-size: .58rem; font-weight: 700; letter-spacing: .16em; color: var(--p-55); }
+.grp::after { content: ""; flex: 1; height: 1px; background: var(--p-18); order: 1; }
+.grp b { order: 2; font-weight: 700; color: var(--p-55); }
+.grp span { color: var(--p); text-shadow: var(--glow); }
+.grp.crit b { color: var(--red); }
+.unit { position: relative; height: 40px; border-top: 1px solid var(--p-08); transition: background .3s; }
+.units .unit:first-child, .grp + .unit { border-top: 0; }
+.unit:hover { background: var(--p-04); }
+.unit.flash { animation: flash 1.4s ease-out; }
+@keyframes flash { 0% { background: var(--p-18); box-shadow: inset 3px 0 0 var(--p); } 100% {} }
+.unit .no { font-size: .66rem; color: var(--p-55); font-variant-numeric: tabular-nums; }
+.unit .u { min-width: 0; font-size: .72rem; color: var(--p-80); letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unit .nm { min-width: 0; font-weight: 700; font-size: .86rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: var(--glow); }
+.unit .st { text-align: right; font-size: .58rem; font-weight: 700; letter-spacing: .12em; color: var(--p-55); }
+.unit.warn { background: rgba(255, 59, 69, .06); box-shadow: inset 3px 0 0 var(--red); }
+.unit.warn .st { color: var(--red); animation: blink 1s steps(1) infinite; }
+.unit.down, .unit.down:hover { background: #000; box-shadow: none; }
+.unit.down .no, .unit.down .u, .unit.down .nm, .unit.down .vt .v, .unit.down .vt .v b { color: var(--p-18); text-shadow: none; }
+.unit.down .vt .segs { border-color: var(--p-08); }
+.unit.down .vt .segs i, .unit.down .vt .segs i.on { background: var(--p-08); box-shadow: none; animation: none; }
+.unit.down .st { color: var(--p-30); text-shadow: none; animation: none; }
+
+/* HP / SP 막대 (.segs 는 공통, 높이만 8px) */
+.vt { --seg-h: 8px; display: grid; grid-template-columns: minmax(0, 1fr) 8.5ch; align-items: center; gap: 8px; min-width: 0; }
+.vt .v { position: relative; text-align: right; font-size: .7rem; color: var(--p-55); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vt .v b { color: var(--p); font-size: .84rem; text-shadow: var(--glow); }
+.vt .segs i { transition: background .4s, box-shadow .4s; }
+.vt.sp .segs i.on { background: repeating-linear-gradient(135deg, var(--p) 0 2px, rgba(var(--p-rgb), .55) 2px 4px); }
+.vt.low .segs { border-color: rgba(255, 59, 69, .6); }
+.vt.low .segs i.on { background: var(--red); box-shadow: 0 0 8px var(--red-glow); animation: blink 1.2s steps(1) infinite; }
+.vt.low .v b { color: var(--red); text-shadow: 0 0 8px var(--red-glow); }
+.delta { position: absolute; right: calc(100% + 4px); top: 50%; margin-top: -.6em; padding: 0 3px; background: var(--crt); font-size: .66rem; font-weight: 700; line-height: 1.2; pointer-events: none; animation: rise 1.8s ease-out forwards; }
+.delta.up { color: var(--p); text-shadow: var(--glow); }
+.delta.dn { color: var(--red); text-shadow: 0 0 6px var(--red-glow); }
+@keyframes rise { 0% { opacity: 0; transform: translateX(4px); } 15% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+@media (max-width: 639px) {
+  .lh { display: none; }
+  .unit { height: auto; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto; grid-template-areas: "u nm nm st" "hp hp sp sp"; gap: 6px 14px; padding: 9px 10px; }
+  .list.nounit .unit { grid-template-areas: "nm nm nm st" "hp hp sp sp"; }
+  .unit .no { display: none; }
+  .unit .u { grid-area: u; font-size: .62rem; }
+  .unit .nm { grid-area: nm; font-size: .84rem; line-height: 1.35; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+  .unit .st { grid-area: st; font-size: .54rem; }
+  .vt.hp { grid-area: hp; }
+  .vt.sp { grid-area: sp; }
+  .vt { grid-template-columns: 2ch minmax(0, 1fr) 3.5ch; gap: 6px; }
+  .vt::before { font-size: .54rem; font-weight: 700; letter-spacing: .06em; color: var(--p-55); }
+  .vt.hp::before { content: "HP"; }
+  .vt.sp::before { content: "SP"; }
+  .vt .v .mx { display: none; }
+  .grp { padding: 8px 10px 2px; }
+  .segs, .vt.low .segs, .unit.down .vt .segs { gap: 0; padding: 0; border: 0; border-radius: 3px; background: var(--p-08); overflow: hidden; }
+  .segs i { height: 5px; background: transparent; box-shadow: none; }
+  .segs i:first-child, .segs i:last-child { border-radius: 0; }
+  .segs i.on, .vt.low .segs i.on { box-shadow: none; animation: none; }
+  .vt.sp .segs i.on { background: var(--p-55); }
+  .unit.down .vt .segs i, .unit.down .vt .segs i.on { background: transparent; }
+}
+
+@media (min-width: 640px) {
+  .hero { grid-template-columns: repeat(4, 1fr); }
+  .hero > div { border-bottom: 0 !important; border-right: 1px solid var(--p-18); }
+  .hero > div:last-child { border-right: 0; }
+  .big { font-size: 2.4rem; }
+}

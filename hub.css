@@ -1,0 +1,62 @@
+/* TETRA HUB 전용 스타일 (상단 제목 / 작전 현황, 메인 메뉴, 설명, 프롬프트)
+   공통 스킨(토큰, 틀, 상단 바, 화면, .sys, 커서, 하단)은 assets/tetra.css */
+
+.top { display: grid; grid-template-columns: 1fr auto; gap: 18px 30px; align-items: end; padding-bottom: 16px; border-bottom: 1px solid var(--p-30); }
+.top small { display: block; font-size: .62rem; font-weight: 700; letter-spacing: .22em; color: var(--p-55); }
+.hub-ttl { margin: 8px 0 0; font-size: clamp(1.7rem, 5.2vw, 2.6rem); font-weight: 700; line-height: 1.05; letter-spacing: .14em; text-shadow: var(--glow-strong); }
+.top .sub { margin: 10px 0 0; font-size: .68rem; letter-spacing: .16em; }
+.stat { text-align: right; }
+.stat b { display: block; margin-top: 6px; font-size: clamp(1.5rem, 5vw, 2.25rem); font-weight: 700; line-height: 1; letter-spacing: .08em; font-variant-numeric: tabular-nums; text-shadow: var(--glow-strong); }
+.stat b span { margin-left: .2em; font-size: .45em; letter-spacing: .08em; color: var(--p-55); text-shadow: none; }
+.stat .st { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 1.6em; margin-top: 10px; font-size: .68rem; letter-spacing: .12em; color: var(--p-55); }
+.stat .st > span { white-space: nowrap; }
+#opEl { font-variant-numeric: tabular-nums; }
+.stat .st > span[hidden] { display: none; }
+.stat .st u { text-decoration: none; font-weight: 700; color: var(--p); }
+
+.menu { position: relative; margin-top: 30px; padding: 22px 14px 14px; border: 3px double var(--p-55); border-radius: 2px; background: var(--p-04); box-shadow: 0 0 18px rgba(var(--p-rgb), .06); }
+.menu .mt { position: absolute; top: -.75em; left: 16px; padding: 0 10px; background: var(--crt); font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-shadow: var(--glow); }
+.mr { display: flex; align-items: baseline; width: 100%; padding: 9px 12px; background: none; border: 0; border-radius: 3px; color: var(--p-90); font: inherit; text-align: left; cursor: pointer; }
+.mr .no { margin-right: 14px; font-weight: 700; letter-spacing: .04em; }
+.mr .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; letter-spacing: .12em; text-shadow: var(--glow); }
+.mr .ko { margin-left: 14px; font-size: .76rem; color: var(--p-55); }
+.mr .ld { flex: 1; min-width: 12px; margin: 0 8px; border-bottom: 1px dotted var(--p-30); transform: translateY(-3px); }
+.mr .st { font-size: .68rem; font-weight: 700; letter-spacing: .14em; color: var(--p-80); white-space: nowrap; }
+.mr .st.red { color: var(--red); text-shadow: 0 0 6px var(--red-glow); }
+.mr:hover:not([aria-disabled="true"]) { background: var(--p-08); }
+.mr.is-on, .mr.is-on:hover { background: var(--p); color: var(--crt); }
+.mr.is-on .nm, .mr.is-on .ko, .mr.is-on .st { color: var(--crt); text-shadow: none; }
+.mr.is-on .st.red { color: #c4141e; }
+.mr.is-on .ld { border-color: rgba(6, 7, 8, .45); }
+/* OFFLINE 칸: 누르면 거부 버저만 (disabled 대신 aria-disabled — disabled 면 클릭 자체가 전달되지 않아 소리를 낼 수 없음) */
+.mr[aria-disabled="true"] { cursor: not-allowed; color: var(--p-18); }
+.mr[aria-disabled="true"] .nm, .mr[aria-disabled="true"] .st { color: var(--p-18); text-shadow: none; }
+.mr[aria-disabled="true"] .ld { border-color: var(--p-08); }
+.menu .grp { display: flex; align-items: center; gap: 10px; margin: 8px 12px 2px; font-size: .62rem; font-weight: 700; letter-spacing: .2em; color: var(--p-55); }
+.menu .grp::after { content: ""; flex: 1; border-top: 1px dotted var(--p-18); }
+
+.desc { margin: 18px 0 0; min-height: 44px; font-size: .82rem; line-height: 1.7; color: var(--p-90); word-break: keep-all; overflow-wrap: anywhere; }
+.desc b { color: var(--p); text-shadow: var(--glow); }
+.desc .dt { font-size: .68rem; font-weight: 700; letter-spacing: .12em; color: var(--p-55); }
+.desc .dt::before { content: "> "; }
+.desc .dt span { white-space: nowrap; }
+.prompt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 6px; font-size: .88rem; font-weight: 700; }
+.prompt i { font-style: normal; color: var(--p-55); }
+.prompt .in { min-width: 1ch; text-shadow: var(--glow); }
+.go { display: inline-block; margin-left: auto; padding: 7px 16px; border: 1px solid var(--p-55); border-radius: 6px; font-size: .68rem; font-weight: 700; letter-spacing: .16em; color: var(--p); text-decoration: none; }
+.go:hover { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.keys { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 18px 0 0; padding-top: 12px; border-top: 1px dotted var(--p-18); font-size: .62rem; letter-spacing: .14em; color: var(--p-55); }
+.keys b { margin-right: 6px; padding: 0 5px; border: 1px solid var(--p-30); border-radius: 3px; font-weight: 700; color: var(--p); }
+
+@media (max-width: 639px) {
+  .top { grid-template-columns: 1fr; }
+  .stat { text-align: left; }
+  .stat .st { justify-content: flex-start; }
+  .menu { padding: 22px 6px 10px; }
+  .mr { padding: 11px 8px; }
+  .mr .no { margin-right: 10px; }
+  .mr .nm { letter-spacing: .06em; }
+  .mr .st { letter-spacing: .06em; }
+  .mr .ko, .keys { display: none; }
+  .go { margin-left: 0; }
+}

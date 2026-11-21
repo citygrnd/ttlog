@@ -1,0 +1,73 @@
+/* TETRA COMMS 전용 스타일
+   공통 스킨(토큰, 틀, 상단 바, 화면, .sys/.line, 패널, .cmdrow, .empty, 커서, 하단, 2단 .grid)은 ../assets/tetra.css */
+
+/* 서리 강화 (COMMS 만): 공통 .term::before 보다 진하고 넓게, 네 모서리 모두 */
+.term::before {
+  opacity: .6;
+  -webkit-mask-image: radial-gradient(circle at 0 0, #000, transparent 230px), radial-gradient(circle at 100% 100%, #000, transparent 270px), radial-gradient(circle at 100% 0, #000, transparent 130px), radial-gradient(circle at 0 100%, #000, transparent 150px);
+  mask-image: radial-gradient(circle at 0 0, #000, transparent 230px), radial-gradient(circle at 100% 100%, #000, transparent 270px), radial-gradient(circle at 100% 0, #000, transparent 130px), radial-gradient(circle at 0 100%, #000, transparent 150px);
+}
+
+/* 채널 목록 */
+.files { --cols: 3ch minmax(0, 1fr) 8ch; overflow: hidden; }
+.files .hd, .files .fr { display: grid; grid-template-columns: var(--cols); gap: 8px; align-items: center; padding: 0 10px; }
+.files .hd { height: 28px; border-bottom: 1px solid var(--p-18); font-size: .58rem; letter-spacing: .14em; color: var(--p-55); }
+.files .hd span:last-child, .files .fr .st { text-align: right; }
+.files .grp { display: flex; align-items: center; gap: 8px; padding: 8px 10px 2px; font-size: .58rem; font-weight: 700; letter-spacing: .16em; color: var(--p-30); }
+.files .grp::after { content: ""; flex: 1; height: 1px; background: var(--p-18); }
+.fr { width: 100%; height: 36px; background: transparent; border: 0; border-radius: 0; color: var(--p-55); font: inherit; font-size: .76rem; text-align: left; cursor: pointer; }
+.fr .nm { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; letter-spacing: .04em; color: var(--p-90); }
+.fr .st { font-size: .58rem; letter-spacing: .1em; }
+.fr .st.red { color: var(--red); text-shadow: 0 0 6px var(--red-glow); }
+.fr:hover:not(:disabled) { background: var(--p-08); }
+.fr[aria-current="true"] { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.fr[aria-current="true"] .nm, .fr[aria-current="true"] .st { color: var(--crt); text-shadow: none; }
+.fr[aria-current="true"] .st.red { color: #c4141e; }
+.fr:disabled { cursor: default; color: var(--p-18); }
+.fr:disabled .nm { color: var(--p-18); font-weight: 400; letter-spacing: .12em; }
+
+/* 신호 막대 (상단 바의 .sig 와 구분하려고 .sigbars) */
+.sigbars { flex: none; display: flex; align-items: center; gap: 8px; font-size: .62rem; letter-spacing: .12em; color: var(--p-55); }
+.sigbars .bars { display: flex; align-items: flex-end; gap: 3px; }
+.sigbars .bars i { display: block; width: 5px; border: 1px solid var(--p-30); border-radius: 1px; }
+.sigbars .bars i:nth-child(1) { height: 6px; }
+.sigbars .bars i:nth-child(2) { height: 9px; }
+.sigbars .bars i:nth-child(3) { height: 12px; }
+.sigbars .bars i:nth-child(4) { height: 15px; }
+.sigbars .bars i:nth-child(5) { height: 18px; }
+.sigbars .bars i.on { background: var(--p); border-color: var(--p); box-shadow: 0 0 6px rgba(var(--p-rgb), .5); }
+/* 필터 (VITALS 정렬 버튼과 같은 모양) */
+.pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.pills button { height: 28px; padding: 0 9px; background: transparent; border: 1px solid var(--p-30); border-radius: 6px; color: var(--p-80); font: inherit; font-size: .62rem; letter-spacing: .1em; cursor: pointer; }
+.pills button:hover { border-color: var(--p); box-shadow: var(--glow); }
+.pills button[aria-pressed="true"] { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.cmdrow .filterline { flex: none; }
+
+/* 교신 로그 */
+.log { height: 420px; margin: 0; padding: 12px 14px; overflow: auto; }
+.ln { display: grid; grid-template-columns: 9ch 4ch 10ch minmax(0, 1fr); gap: 8px; font-size: .78rem; line-height: 1.85; }
+.ln .t { color: var(--p-55); font-variant-numeric: tabular-nums; }
+.ln .d { height: 17px; margin-top: 3px; border: 1px solid var(--p-30); border-radius: 3px; font-size: .58rem; font-weight: 700; letter-spacing: .06em; line-height: 15px; text-align: center; color: var(--p-80); }
+.ln .d.tx { background: var(--p); border-color: var(--p); color: var(--crt); }
+.ln .f { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; letter-spacing: .04em; color: var(--p); text-shadow: var(--glow); }
+.ln .x { min-width: 0; color: var(--p-90); word-break: keep-all; overflow-wrap: anywhere; }
+.ln.ns .f, .ln.ns .x { color: var(--p-30); text-shadow: none; }
+.ln.sus .f, .ln.sus .x { color: var(--red); text-shadow: 0 0 6px var(--red-glow); }
+.ln.sus .x::before { content: "[!] "; font-weight: 700; }
+.day { display: flex; align-items: center; gap: 8px; margin: 2px 0 6px; font-size: .58rem; font-weight: 700; letter-spacing: .16em; color: var(--p-55); }
+.day::before, .day::after { content: ""; flex: 1; height: 1px; background: var(--p-18); }
+.day:not(:first-child) { margin-top: 12px; }
+.log .empty { padding: 6px 0; text-align: left; }
+.log .cur { margin-top: 6px; }
+
+.cmdrow .tailline { flex: 1 1 0; }
+
+@media (max-width: 639px) {
+  .ln { grid-template-columns: 8ch 4ch minmax(0, 1fr); gap: 0 8px; margin-bottom: 8px; line-height: 1.6; }
+  .ln .f, .ln .x { grid-column: 3; }
+  .log { height: 360px; }
+}
+
+@media (min-width: 880px) {
+  .main { min-height: 540px; }
+}

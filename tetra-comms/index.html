@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="TETRA COMMS — RADIO LOG.">
+<title>TETRA COMMS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23000'/%3E%3Crect x='3' y='10' width='2' height='3' fill='%23e8edf0'/%3E%3Crect x='7' y='7' width='2' height='6' fill='%23e8edf0'/%3E%3Crect x='11' y='4' width='2' height='9' fill='%23e8edf0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/tetra.css">
+<link rel="stylesheet" href="comms.css">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main class="wrap">
+  <section class="term" aria-label="교신 로그 단말기">
+    <span class="tick l" aria-hidden="true"></span>
+    <span class="tick r" aria-hidden="true"></span>
+
+    <header class="bar">
+      <a class="home" href="../" aria-label="허브로 돌아가기">◀ HUB</a>
+      <span class="tty" aria-hidden="true">TTY4</span>
+      <h1 class="name">TETRA COMMS</h1>
+      <span class="sig lost sm-hide" aria-hidden="true">SIG LOST</span>
+      <span class="clock" id="clock" aria-hidden="true">--:--:--</span>
+    </header>
+
+    <div class="screen">
+      <p class="sys" id="alert">COMMS LOG · READ ONLY</p>
+
+      <div class="grid">
+        <nav class="side" aria-label="채널 목록">
+          <p class="line">ls channels/ <span class="cnt" id="fCnt">-- CH</span></p>
+          <div class="panel files">
+            <div class="hd" aria-hidden="true"><span>CH</span><span>NAME</span><span>STAT</span></div>
+            <div id="files"></div>
+          </div>
+        </nav>
+
+        <section class="main" aria-label="교신 기록">
+          <div class="cmdrow">
+            <p class="line tailline">tail -f <span id="catName">—</span></p>
+            <div class="sigbars">SIG <span class="bars" id="bars" role="img" aria-label="신호 세기"><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+          <div class="cmdrow">
+            <p class="line filterline">filter</p>
+            <div class="pills" id="pills" role="group" aria-label="교신 필터"></div>
+          </div>
+          <div class="panel log scroll" id="log" tabindex="0" aria-live="polite" aria-label="교신 기록"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span id="fU">UPDATED —</span>
+    <span id="fR">-- CH · -- SUSPECT</span>
+  </footer>
+
+  <noscript><p class="sub">기록을 보려면 자바스크립트를 켜주세요.</p></noscript>
+</main>
+
+<script src="../assets/tetra.js"></script>
+<script src="../assets/sfx.js"></script>
+<script src="comms-data.js"></script>
+<script src="comms.js"></script>
+</body>
+</html>

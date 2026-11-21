@@ -1,0 +1,165 @@
+/* TETRA 공통 단말기 스킨
+   기준: TETRA LOG / VITALS. 페이지 고유 스타일(표, 온도 패널, 체력 바 등)은 각 페이지 CSS에 둔다.
+   글꼴은 각 페이지 <head>에서 Google Fonts <link>로 불러온다 (JetBrains Mono + Nanum Gothic Coding, 400/700).
+
+   사용 틀:
+   <canvas id="snow" aria-hidden="true"></canvas>
+   <main class="wrap">                       (기본 760px, 880px 이상에서 1000px — 모든 페이지 동일)
+     <section class="term">
+       <span class="tick l"></span><span class="tick r"></span>
+       <header class="bar">
+         <a class="home" href="../">◀ HUB</a>  (하위 페이지만)
+         <span class="tty">TTY1</span><h1 class="name">…</h1>
+         <span class="sig lost">SIG LOST</span><span class="clock" id="clock">--:--:--</span>
+       </header>
+       <div class="screen"><p class="sys">…</p><p class="line">…</p> …</div>
+     </section>
+     <footer class="foot">…</footer>
+   </main>
+*/
+
+/* 색 토큰 --p-rgb: 흰색 232,237,240 / 초록 74,222,128 / 앰버 255,176,32 */
+:root {
+  --p-rgb: 232, 237, 240;
+  --p: rgb(var(--p-rgb));
+  --p-90: rgba(var(--p-rgb), .9);
+  --p-80: rgba(var(--p-rgb), .8);
+  --p-55: rgba(var(--p-rgb), .55);
+  --p-30: rgba(var(--p-rgb), .3);
+  --p-18: rgba(var(--p-rgb), .18);
+  --p-08: rgba(var(--p-rgb), .08);
+  --p-04: rgba(var(--p-rgb), .04);
+  --glow: 0 0 6px rgba(var(--p-rgb), .45);
+  --glow-strong: 0 0 10px rgba(var(--p-rgb), .6), 0 0 26px rgba(var(--p-rgb), .25);
+  --red: #ff3b45;
+  --red-glow: rgba(255, 59, 69, .6);
+  --crt: #060708;
+  --mono: "JetBrains Mono", "Nanum Gothic Coding", "D2Coding", ui-monospace, Consolas, monospace;
+  --frost: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.4 0 0 0 -1.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+
+/* 기본 */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; min-height: 100dvh; background: #000; color: var(--p); font-family: var(--mono); }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--p); outline-offset: 2px; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 스크롤바 (페이지 + 안쪽 스크롤 영역은 .scroll) */
+html, .scroll { scrollbar-width: thin; scrollbar-color: var(--p-30) transparent; }
+html::-webkit-scrollbar, .scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+html::-webkit-scrollbar-track { background: #000; }
+.scroll::-webkit-scrollbar-track { background: transparent; border-left: 1px solid var(--p-08); }
+html::-webkit-scrollbar-thumb, .scroll::-webkit-scrollbar-thumb { background: var(--p-30); border-radius: 999px; box-shadow: 0 0 6px rgba(var(--p-rgb), .35); }
+html::-webkit-scrollbar-thumb:hover, .scroll::-webkit-scrollbar-thumb:hover { background: var(--p-55); }
+
+/* 배경 눈보라 · 바깥 틀 */
+#snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.wrap { position: relative; max-width: 760px; margin: 0 auto; padding: 16px 12px 40px; }
+.sub { margin: 12px 0 0; color: var(--p-55); font-size: .8rem; }
+
+/* 단말기 창 */
+.term { position: relative; overflow: hidden; background: var(--crt); border: 1px solid var(--p-55); border-radius: 14px; box-shadow: 0 0 0 1px var(--p-08), 0 0 28px rgba(var(--p-rgb), .12), inset 0 0 40px var(--p-04); }
+.term::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--frost); opacity: .22; -webkit-mask-image: radial-gradient(circle at 0 0, #000, transparent 150px), radial-gradient(circle at 100% 100%, #000, transparent 180px); mask-image: radial-gradient(circle at 0 0, #000, transparent 150px), radial-gradient(circle at 100% 100%, #000, transparent 180px); }
+.tick { position: absolute; z-index: 2; width: 3px; height: 64px; background: repeating-linear-gradient(to bottom, var(--p-30) 0 2px, transparent 2px 6px); }
+.tick.l { left: 5px; top: 140px; }
+.tick.r { right: 5px; bottom: 140px; }
+
+/* 상단 바 */
+.bar { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--p-30); background: var(--p-04); }
+.name { min-width: 0; margin: 0 auto 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-shadow: var(--glow); }
+.tty { flex: none; padding: 1px 6px; border: 1px solid var(--p-30); border-radius: 4px; font-size: .6rem; font-weight: 700; letter-spacing: .1em; color: var(--p-55); }
+.clock { flex: none; font-size: .66rem; letter-spacing: .06em; color: var(--p-80); font-variant-numeric: tabular-nums; text-shadow: var(--glow); }
+
+/* 효과음 켜기/끄기 (sfx.js 가 상단 바 시계 앞에 넣음) */
+.snd { flex: none; min-height: 24px; padding: 2px 7px; background: transparent; border: 1px solid var(--p-18); border-radius: 4px; color: var(--p-55); font: inherit; font-size: .58rem; font-weight: 700; letter-spacing: .1em; line-height: 1; cursor: pointer; }
+.snd:hover { border-color: var(--p); color: var(--p); }
+.snd[aria-pressed="true"] { border-color: var(--p-55); color: var(--p); text-shadow: var(--glow); }
+
+/* HUB 복귀 (하위 페이지 상단 바 맨 앞) */
+.home { flex: none; display: inline-flex; align-items: center; min-height: 24px; padding: 2px 8px; border: 1px solid var(--p-30); border-radius: 4px; font-size: .6rem; font-weight: 700; letter-spacing: .1em; line-height: 1; color: var(--p-80); text-decoration: none; }
+.home:hover { border-color: var(--p); color: var(--p); box-shadow: var(--glow); }
+
+/* 신호 표시
+   .sig            LIVE   흰 점
+   .sig.busy       SYNC   흰 점 빠르게 깜빡
+   .sig.lost       SIG LOST 빨간 점 깜빡, 글자는 흐리게 (LOG 기본형)
+   .sig.lost.err   글자까지 빨갛게 (VITALS 연결 실패)
+   .sig.sm-hide    480px 미만에서 숨김 */
+.sig { display: inline-flex; flex: none; align-items: center; gap: 6px; font-size: .66rem; line-height: 1; letter-spacing: .1em; color: var(--p-55); }
+.sig::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--p); box-shadow: var(--glow); }
+.sig.busy::before { animation: blink .5s steps(1) infinite; }
+.sig.lost::before { background: var(--red); box-shadow: 0 0 6px var(--red); animation: blink 1.4s steps(1) infinite; }
+.sig.lost.err { color: var(--red); }
+@media (max-width: 479px) {
+  .sig.sm-hide { display: none; }
+  .bar { gap: 10px; }
+  .home ~ .tty { display: none; }   /* 좁은 화면: HUB 버튼이 있는 하위 페이지는 TTY 표시 생략 */
+  .snd .snd-st { display: none; }   /* 효과음 버튼은 'SND' 만 (켜지면 밝게) */
+}
+
+/* 화면: 점 격자 + 주사선 */
+.screen { position: relative; padding: 16px 16px 20px; font-size: .82rem; line-height: 1.6; background: radial-gradient(rgba(var(--p-rgb), .06) 1px, transparent 1.3px) 0 0 / 14px 14px, var(--crt); }
+.screen::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(var(--p-rgb), .025) 0 1px, transparent 1px 3px); }
+
+/* 시스템 줄 · 명령 줄 */
+.sys { margin: 0 0 18px; font-size: .66rem; letter-spacing: .12em; color: var(--p-55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sys::before { content: "! "; color: var(--p); }
+.sys.err { color: var(--red); white-space: normal; }
+.sys.err::before { color: var(--red); }
+.line { margin: 0 0 10px; color: var(--p-80); word-break: break-all; }
+.line::before { content: "> "; color: var(--p-55); }
+.cnt { color: var(--p-55); font-size: .7rem; }
+.cmdrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 10px; }
+.cmdrow .line { flex: 1 1 100%; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 패널 · 묶음 제목 */
+.panel { margin: 0 0 22px; border: 1px solid var(--p-30); border-radius: 10px; background: var(--p-04); }
+.title { margin: 0 0 12px; font-size: 1.15rem; font-weight: 700; line-height: 1.4; text-shadow: var(--glow); }
+.title::before { content: "# "; color: var(--p-55); }
+.empty { margin: 0; padding: 28px 0; text-align: center; color: var(--p-55); font-size: .74rem; letter-spacing: .12em; }
+
+/* 선택 상태 (시안의 흰 배경 + 검은 글자 행). 페이지에서 aria-current 등과 함께 쓴다 */
+.is-on { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+
+/* 이전/다음 */
+.pager { flex: none; margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.pager button { width: 36px; height: 32px; padding: 0; background: transparent; border: 1px solid var(--p-30); border-radius: 6px; color: var(--p-90); font: inherit; font-size: .68rem; cursor: pointer; }
+.pager button:hover:not(:disabled) { border-color: var(--p); box-shadow: var(--glow); }
+.pager button:disabled { border-color: var(--p-08); color: var(--p-18); cursor: default; }
+.pos { min-width: 5ch; text-align: center; color: var(--p-55); font-size: .7rem; }
+
+/* 칸 막대 (진행 바). 높이는 --seg-h 로 조절 */
+.segs { display: flex; gap: 2px; padding: 2px; border: 1px solid var(--p-30); border-radius: 999px; min-width: 0; }
+.segs i { flex: 1; min-width: 0; height: var(--seg-h, 10px); background: var(--p-04); }
+.segs i:first-child { border-radius: 999px 0 0 999px; }
+.segs i:last-child { border-radius: 0 999px 999px 0; }
+.segs i.on { background: var(--p); box-shadow: 0 0 8px rgba(var(--p-rgb), .5); }
+
+/* 깜빡이는 커서 */
+.cur { display: inline-block; width: .55em; height: 1.1em; background: var(--p); box-shadow: var(--glow); vertical-align: -.2em; animation: blink 1s steps(1) infinite; }
+
+/* 하단 */
+.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; margin-top: 18px; padding: 0 4px; font-size: .66rem; font-weight: 700; letter-spacing: .12em; color: var(--p-55); }
+.foot span { min-width: 0; overflow-wrap: anywhere; }
+
+/* 반응형 */
+@media (min-width: 640px) {
+  .wrap { padding: 32px 20px 60px; }
+  .screen { padding: 22px 26px 26px; font-size: .86rem; }
+  .cmdrow { flex-wrap: nowrap; }
+  .cmdrow .line { flex: 1 1 auto; }
+  .title { font-size: 1.3rem; }
+}
+
+/* 2단: .grid > .side + .main */
+@media (min-width: 880px) {
+  .wrap { max-width: 1000px; }   /* 모든 페이지 1000px 통일 */
+  .grid { display: grid; grid-template-columns: 330px 1fr; gap: 28px; }
+  .side { padding-right: 24px; border-right: 1px solid var(--p-18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

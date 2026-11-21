@@ -1,0 +1,52 @@
+/* TETRA CODEX 전용 스타일
+   공통 스킨(토큰, 틀, 상단 바, 화면, .sys/.line, 패널, 페이저, .title, 커서, 하단, 2단 .grid)은 ../assets/tetra.css */
+
+/* 목록 */
+.files { --cols: 3ch minmax(0, 1fr) 7ch; overflow: hidden; }
+.files .hd, .files .fr { display: grid; grid-template-columns: var(--cols); gap: 8px; align-items: center; padding: 0 10px; }
+.files .hd { height: 28px; border-bottom: 1px solid var(--p-18); font-size: .58rem; letter-spacing: .14em; color: var(--p-55); }
+.files .hd span:last-child, .files .fr .st { text-align: right; }
+.files .grp { display: flex; align-items: center; gap: 8px; padding: 8px 10px 2px; font-size: .58rem; font-weight: 700; letter-spacing: .16em; color: var(--p-55); }
+.files .grp::after { content: ""; flex: 1; height: 1px; background: var(--p-18); }
+.files .grp.unread { color: var(--p-30); }
+.fr { width: 100%; height: 36px; background: transparent; border: 0; border-radius: 0; color: var(--p-55); font: inherit; font-size: .76rem; text-align: left; cursor: pointer; }
+.fr .nm { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; letter-spacing: .04em; color: var(--p-90); }
+.fr .st { font-size: .58rem; letter-spacing: .1em; }
+.fr:hover:not([aria-disabled="true"]) { background: var(--p-08); }
+.fr[aria-current="true"] { background: var(--p); color: var(--crt); box-shadow: var(--glow-strong); }
+.fr[aria-current="true"] .nm { color: var(--crt); }
+/* 미열람 (disabled 대신 aria-disabled — 클릭이 전달돼야 거부 버저를 낼 수 있음) */
+.fr[aria-disabled="true"] { cursor: not-allowed; color: var(--p-18); }
+.fr[aria-disabled="true"] .nm { color: var(--p-18); font-weight: 400; letter-spacing: .12em; }
+
+/* 이미지 칸 (16:9) */
+.img { position: relative; aspect-ratio: 16 / 9; margin: 0 0 22px; overflow: hidden; border: 1px solid var(--p-30); border-radius: 10px; background: repeating-linear-gradient(135deg, var(--p-04) 0 10px, transparent 10px 20px), var(--crt); box-shadow: inset 0 0 30px var(--p-04); }
+.img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.img .ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: .62rem; letter-spacing: .22em; color: var(--p-55); }
+.img .ph[hidden] { display: none; }
+.img .ph b { font-size: .8rem; font-weight: 700; color: var(--p-80); text-shadow: var(--glow); }
+.img .c { position: absolute; z-index: 2; width: 14px; height: 14px; border: 2px solid var(--p); filter: drop-shadow(0 0 3px rgba(var(--p-rgb), .5)); }
+.img .c.tl { left: 10px; top: 10px; border-right: 0; border-bottom: 0; }
+.img .c.tr { right: 10px; top: 10px; border-left: 0; border-bottom: 0; }
+.img .c.bl { left: 10px; bottom: 10px; border-right: 0; border-top: 0; }
+.img .c.br { right: 10px; bottom: 10px; border-left: 0; border-top: 0; }
+.img .lb { position: absolute; z-index: 2; padding: 1px 6px; border-radius: 2px; background: rgba(6, 7, 8, .7); font-size: .56rem; letter-spacing: .16em; color: var(--p); }
+.img .lb.t { left: 30px; top: 12px; }
+.img .lb.b { right: 30px; bottom: 12px; }
+
+/* 메타 · 본문 (LOG 보고서와 같은 모양) */
+.head { display: grid; gap: 2px; margin: 0 0 16px; }
+.head div { display: grid; grid-template-columns: 10ch 1fr; }
+.head dt { color: var(--p-55); font-size: .74rem; letter-spacing: .1em; line-height: 1.9; }
+.head dd { margin: 0; color: var(--p-90); min-width: 0; overflow-wrap: anywhere; }
+.body { margin: 0; font-size: 14px; line-height: 1.85; color: var(--p-90); text-shadow: 0 0 6px rgba(var(--p-rgb), .22); white-space: pre-wrap; word-break: keep-all; overflow-wrap: anywhere; }
+.body .tag { font-weight: 700; color: var(--p); }
+.idle { margin: 18px 0 0; }
+
+@media (max-width: 879px) {
+  .side { margin-bottom: 8px; }
+}
+
+@media (min-width: 880px) {
+  .main { min-height: 540px; }
+}
