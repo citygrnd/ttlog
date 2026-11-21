@@ -1,17 +1,18 @@
 /* TETRA 효과음 — 파일 없이 브라우저(Web Audio)에서 합성
-   - 기본은 꺼짐. 상단 바의 [SND OFF] 버튼으로 켜고, 켠 상태는 이 브라우저에 기억 (localStorage 'tetra-sfx')
+   - 기본은 켜짐. 상단 바의 [SND ON] 버튼으로 끄고, 끈 상태는 이 브라우저에 기억 (localStorage 'tetra-sfx')
    - 브라우저 규칙상 사용자가 한 번 누르기 전에는 소리가 나지 않음
    - 공통: 버튼·링크 클릭 = tick, 방향키 이동 = blip
      요소에 data-sfx="이름" 을 달면 그 소리, data-sfx="none" 이면 소리 없음
-   - 페이지에서 직접: TETRA_SFX.play('connect' | 'deny' | 'radio' | 'mimic' | 'alarm' | 'tick' | 'blip')
+   - 페이지에서 직접: TETRA_SFX.play('connect' | 'deny' | 'radio' | 'mimic' | 'ping' | 'pingDanger' | 'alarm' | 'tick' | 'blip')
 
    페이지에서는 tetra.js 다음에 불러온다.  <script src="../assets/sfx.js"></script> */
 (() => {
   'use strict';
 
   const KEY = 'tetra-sfx';
-  let on = false;
-  try { on = localStorage.getItem(KEY) === 'on'; } catch (e) {}
+  // 기본은 켜짐 (사용자 결정). 직접 끈 사람만 꺼진 상태로 기억
+  let on = true;
+  try { on = localStorage.getItem(KEY) !== 'off'; } catch (e) {}
   let ctx = null, master = null;
 
   function audio() {
@@ -180,17 +181,23 @@
 
   /* ── 효과음 ── */
   const SOUNDS = {
-    // 기계식 키 클릭
+    // 기본 클릭음 (버튼·링크): 기계식 키 클릭 — 처음 만든 소리 그대로 (사용자 결정)
     tick() { noise(0.025, 0.5, 'highpass', 3500, 0.7); tone('square', 2400, 1800, 0.018, 0.06); },
-    // 메뉴 커서 이동
-    blip() { tone('square', 880, 660, 0.045, 0.07); },
-    // HUB 접속: 짧은 모뎀 핸드셰이크
+    // 키보드 이동음 (방향키): 계전기(릴레이)가 붙는 건조한 "딸깍" (음정 없음)
+    blip() {
+      noise(0.012, 0.5, 'bandpass', 2200, 1.4);
+      noise(0.03, 0.22, 'bandpass', 600, 1.2, 0.006);
+      tone('sine', 90, 60, 0.03, 0.14, 0.004);
+    },
+    // HUB 접속 (약 0.45초): 무거운 스위치 "철컥" → CRT 가 켜지며 저음 "웅" → 거친 데이터 잡음 → 뚝 끊김
     connect() {
-      tone('sine', 1200, 1200, 0.09, 0.12);
-      tone('sine', 2100, 2100, 0.09, 0.1, 0.1);
-      noise(0.16, 0.18, 'bandpass', 1800, 2, 0.2);
-      tone('square', 1650, 2400, 0.1, 0.05, 0.22);
-      tone('sine', 980, 980, 0.07, 0.1, 0.38);
+      noise(0.02, 0.6, 'bandpass', 1500, 1.2);                       // 철컥 (앞)
+      tone('sine', 120, 55, 0.05, 0.4);
+      noise(0.018, 0.45, 'bandpass', 900, 1.2, 0.05);                // 철컥 (뒤, 스위치가 걸림)
+      drone(0.06, 0.42);                                             // CRT 저음이 솟았다가 뚝
+      choppyNoise(0.12, 0.28, 0.3, 2400, 0.9, 0.022);                // 데이터 잡음 지지직
+      tone('sawtooth', 48, 44, 0.3, 0.06, 0.12);                     // 전원 웅웅거림
+      noise(0.015, 0.4, 'highpass', 3000, 0.7, 0.42);                // 끊기는 "툭"
     },
     // 접근 거부 버저
     deny() { tone('square', 120, 110, 0.22, 0.16); tone('square', 123, 112, 0.22, 0.1); },
@@ -210,6 +217,19 @@
       drone(0.25, end);
       noise(0.02, 0.5, 'highpass', 3000, 0.7, end);   // 끊기는 "툭"
       tone('square', 90, 60, 0.04, 0.12, end);
+    },
+    // SECTOR 지도 구역 선택: 레이더가 목표를 잡는 낮은 소나 "핑" + 메아리 2번
+    ping() {
+      noise(0.01, 0.35, 'bandpass', 1800, 1.2);
+      tone('sine', 600, 585, 0.38, 0.16);
+      tone('sine', 600, 585, 0.32, 0.06, 0.14);
+      tone('sine', 600, 585, 0.26, 0.025, 0.28);
+    },
+    // 위험 구역 선택: 핑 + 낮고 불협하게 맥놀이 치는 경고 저음
+    pingDanger() {
+      SOUNDS.ping();
+      tone('sawtooth', 92, 88, 0.5, 0.07, 0.02);
+      tone('sawtooth', 97, 93, 0.5, 0.05, 0.02);
     },
     // 위험 경보 2회
     alarm() { tone('square', 1400, 1400, 0.09, 0.12); tone('square', 1400, 1400, 0.09, 0.12, 0.14); }

@@ -168,11 +168,16 @@
     if (i >= 0) show(i); else hide();
   }
 
+  // 지도 구역 선택 — 효과음: 레이더 핑 (위험 구역이면 경고 저음 섞임)
+  const pickZone = (k) => {
+    if (window.TETRA_SFX) window.TETRA_SFX.play(S[k].st === 'DG' ? 'pingDanger' : 'ping');
+    go(k);
+  };
   zones.forEach((g) => {
     const i = () => S.findIndex((z) => z.place === g.getAttribute('data-z'));
-    g.addEventListener('click', () => { if (i() >= 0) go(i()); });
+    g.addEventListener('click', () => { if (i() >= 0) pickZone(i()); });
     g.addEventListener('keydown', (ev) => {
-      if ((ev.key === 'Enter' || ev.key === ' ') && i() >= 0) { ev.preventDefault(); go(i()); }
+      if ((ev.key === 'Enter' || ev.key === ' ') && i() >= 0) { ev.preventDefault(); pickZone(i()); }
     });
   });
   $('close').addEventListener('click', close);
